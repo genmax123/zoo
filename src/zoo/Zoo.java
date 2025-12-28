@@ -15,8 +15,6 @@ public class Zoo {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Hallo From Max");
-        System.out.println("Hallo From Maddi");
         
     
     }
