@@ -6,12 +6,12 @@ package zoo;
 
 /**
  *
- * @author maddox
+ * @author Maddox
  */
 public class Biome {
-    public double getPreis(int biomeid, boolean ermaessigt) {
+    public double getPreis(int biomeid, boolean ermaessigt) { //öffentliche Methode um den Preis anhand von Bedingungen abzurufen
         double grundpreis = 0.0; //Variable Grundpreis erstellt und Standard wert zugeordnet
-        switch (biomeid) {
+        switch (biomeid) { //ordnet dem biom ein Preis zu
             case 1:
                 grundpreis = 20.0;
                 break; // Eurasien
@@ -33,10 +33,13 @@ public class Biome {
             case 7:
                 grundpreis = 24.0;
                 break; // Meereswelt
+            default: // Standardfall fals üngültige ID
+                grundpreis = 0.0;
+                break;
         }
-        if (ermaessigt) {
-            grundpreis = grundpreis * 0.7; // Beispiel: 30 % Rabatt
+        if (ermaessigt) { // wenn ermäßigt dann...
+            grundpreis = grundpreis * 0.7; //...Multipliziere grundpreis * 0,7 // Beispiel: 30 % Rabatt
         }
-        return grundpreis;
+        return grundpreis; // gebe denn Grundpreis zurück
     }
 }
