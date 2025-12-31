@@ -24,21 +24,43 @@ public class Main {
         ArrayList<Integer> biomeWahl = new ArrayList<>(); //Variable biomeWhal erstellt als ArrayList und objekt erstellt
         int anreiseWahl = 0; // Variable anreiseWahl erstellen und standart wert 0
         ArrayList<Integer> eventWahl = new ArrayList<>(); //Variable eventWahl einem neuen ArrayList erstellt
+        Biome biome = new Biome(); // Neues objekt mit Variable erstellt
+        Event event = new Event();// Neues objekt mit Variable erstellt
+        Move move = new Move();// Neues objekt mit Variable erstellt
+        int anzahlErwachsene = 0; // Erstellung der Variable für die anzahl an erwachsenen Personen
+        int anzahlErmaessigt = 0; // Erstellung der Variable für die anzahl an ermäßigten Personen  
+
         while (running) { //While schleife der Switch Case
             System.out.println("Willkommen im Zoo GolzschGenrich GmbH"); // Textprint für auswahlmenü
             System.out.println("Wählen sie eine Option aus");
-            System.out.println("1. Biom wählen");
-            System.out.println("2. Anreise wählen");
-            System.out.println("3. Events wählen");
-            System.out.println("4. Warenkorb anzeigen");
-            System.out.println("5. Bezahlen und Ticket anzeigen");
-            System.out.println("6. About");
+            System.out.println("1. Personenanzahl wählen");
+            System.out.println("2. Biom wählen");
+            System.out.println("3. Anreise wählen");
+            System.out.println("4. Events wählen");
+            System.out.println("5. Warenkorb anzeigen");
+            System.out.println("6. Bezahlen und Ticket anzeigen");
+            System.out.println("7. About");
             System.out.println("0. Programm beenden");
 
             int choice = scanner.nextInt(); // int Variable festgelegt verweist auf den Scanner 
 
             switch (choice) {
-                case 1:
+                case 1: //1. Personenanzahl wählen
+                    anzahlErwachsene = 0; // standard wert der Variable definieren
+                    anzahlErmaessigt = 0; // standard wert der Variable definieren
+                    while (anzahlErwachsene < 0 || anzahlErmaessigt < 0 || anzahlErwachsene + anzahlErmaessigt <= 0) { // while Schleife mit Bedingungen
+                        System.out.println("Geben sie nun die Personen anzahl ein (Gesamt darf nicht 0 sein.)");
+                        System.out.println("Geben sie die Anzahl an erwachsenen Personen ein:");
+                        anzahlErwachsene = scanner.nextInt(); // Variable Scannerwert zugewiesen
+                        System.out.println("Geben sie die Anzahl an ermäßigten Personen ein (darf auch 0 sein)");
+                        anzahlErmaessigt = scanner.nextInt(); // Variable Scannerwert zugewiesen
+
+                        if (anzahlErwachsene + anzahlErmaessigt <= 0) { // if anweisung für ungültige eingabe
+                            System.out.println("Ungültige eingabe. Es muss mind. eine Person vorhanden sein");
+                        }
+                    }
+                    break;
+                case 2: // 2. Biom wählen
                     int biomeChoice = -1; //Variable biomeChoice(INTEGER)erstellt und Standard wert -1 zugewiesen --> damit die schleife startet
 
                     while (biomeChoice != 0) { //While schleife die läuft solange der wert nicht 0 ist  
@@ -65,8 +87,8 @@ public class Main {
                             System.out.println("Eingabe ist ungültig"); //wenn eingabe nicht 0 ist und auch nicht 1-7 dann...
                         }
                     }
-                    break; // ende case 1
-                case 2:
+                    break; // ende case 2
+                case 3: //3. Anreise wählen
                     System.out.println("Wählen sie ihre bevorzugte Anreise");
                     System.out.println("1. PKW bis 3,5t 8€");
                     System.out.println("2. Bus/Wohnmobiel 15€");
@@ -81,12 +103,12 @@ public class Main {
                         System.out.println("Ungültige Eingabe");
                     }
                     break;
-                case 3:
+                case 4: //4. Events wählen
                     int eventChoice = -1; // erstellen einer Variable eventChoice um auszuwählen default wert auf -1 damit schleife startet
 
                     while (eventChoice != 0) {
                         //While schleife die läuft solange der wert nicht 0 ist
-                        System.out.println("Wählen sie ihr zusatz Event aus: (0 = fertig)"); // UX Textprint
+                        System.out.println("Wählen sie ihr zusatz Event aus: (wert 0 = fertig)"); // UX Textprint
                         System.out.println("1. Nahrungsversorgung von Ziegen");
                         System.out.println("2. Orca-Ausführung");
                         System.out.println("3. Nahrungsversorgung von Löwen");
@@ -107,8 +129,8 @@ public class Main {
                         }
                     }
 
-                    break; //ende Case 3
-                case 4:
+                    break; //ende Case 4
+                case 5: //5. Warenkorb anzeigen
                     System.out.println("Warenkorb"); //Überschrift
 
                     System.out.println("ausgewählte Biome:");
@@ -175,10 +197,43 @@ public class Main {
                                 break;
                         }
                     }
-                break;  // ende Case 4
-                case 5:
+                    break;  // ende Case 5
+                case 6: //6. Bezahlen und Ticket anzeigen
+                    double gesamtpreis = 0.0; // Erstellung der Variable für den Gesamtpreis
+                    if (anzahlErwachsene + anzahlErmaessigt <= 0) { // if anweisung damit user weis das keine person ausgewählt ist.
+                        System.out.println("Bitte wählen sie zuerst die anzahl an Personen aus");
+                        break;
+                    }
+                    if (biomeWahl.isEmpty()) { //Wenn ArrayList leer ist dann...
+                        System.out.println("Es sind keine Biome ausgewählt Bitte wählen sie ein Biom aus"); //... ausgeben
+                        break;
+                    } else {    //anderenfalls
+                        for (int biomeid : biomeWahl) { //Variable biomeid biomeWahl zugeordnet
+                            double pErwachsener = biome.getPreis(biomeid, false); // Variable mit getMethode verbunden (preis abrufen)
+                            double pErmaessigt = biome.getPreis(biomeid, true); // Variable mit getMethode verbunden (preis abrufen)
+
+                            gesamtpreis += pErwachsener * anzahlErwachsene; //Rechnung Teilbetrag zum gesamtpreis addieren
+                            gesamtpreis += pErmaessigt * anzahlErmaessigt; //Rechnung Teilbetrag zum gesamtpreis addieren
+                        }
+                    }
+                    for (int eventid : eventWahl) { //Variable eventid eventWahl zugeordnet
+                        double pErwachsener = event.getPreis(eventid, false); // Variable mit getMethode verbunden (preis abrufen)
+                        double pErmaessigt = event.getPreis(eventid, true); // Variable mit getMethode verbunden (preis abrufen)
+
+                        gesamtpreis += pErwachsener * anzahlErwachsene; //Rechnung Teilbetrag zum gesamtpreis addieren
+                        gesamtpreis += pErmaessigt * anzahlErmaessigt; //Rechnung Teilbetrag zum gesamtpreis addieren
+                    }
+
+                    if (anreiseWahl == 0) { // wenn die Variable 0 ist dann...
+                        System.out.println("Bitte wählen sie zuerst eine Anreise aus"); //... gebe das aus
+                        break;
+                    } else {
+                        gesamtpreis += move.getPreis(anreiseWahl); // Variable mit getMethode verbunden (preis abrufen) und Teilbetrag addieren
+                    }
+
+                    System.out.println("Gesamtpreis:" + gesamtpreis + "  EUR"); // ausgabe des Gesamtpreises
                     break;
-                case 6:
+                case 7:
                     break;
                 case 0:
                     running = false;
