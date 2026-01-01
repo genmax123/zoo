@@ -42,4 +42,17 @@ public class Biome {
         }
         return grundpreis; // gebe denn Grundpreis zurück
     }
+    public String getName(int biomeid) { //getName Methode um für den ausgewählten Case den passenden name zurück zu geben
+    switch (biomeid) {
+        case 1: return "Eurasien";
+        case 2: return "Afrika";
+        case 3: return "Nordamerika";
+        case 4: return "Südamerika";
+        case 5: return "Australien und Ozeanien";
+        case 6: return "Tropisches Zentrum";
+        case 7: return "Meereswelt";
+        default: return "Unbekanntes Biom";
+    }
+}
+
 }

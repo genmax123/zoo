@@ -49,7 +49,7 @@ public class Main {
                     anzahlErwachsene = 0; // standard wert der Variable definieren
                     anzahlErmaessigt = 0; // standard wert der Variable definieren
                     while (anzahlErwachsene < 0 || anzahlErmaessigt < 0 || anzahlErwachsene + anzahlErmaessigt <= 0) { // while Schleife mit Bedingungen
-                        System.out.println("Geben sie nun die Personen anzahl ein (Gesamt darf nicht 0 sein.)");
+                        System.out.println("Geben sie nun die Personen anzahl ein (Gesamt darf nicht 0 sein.) (alle Aktivitäten gelten für alle eingetragenen Personen)");
                         System.out.println("Geben sie die Anzahl an erwachsenen Personen ein:");
                         anzahlErwachsene = scanner.nextInt(); // Variable Scannerwert zugewiesen
                         System.out.println("Geben sie die Anzahl an ermäßigten Personen ein (darf auch 0 sein)");
@@ -138,29 +138,7 @@ public class Main {
                         System.out.println("Es sind keine Biome ausgewählt"); //... ausgeben
                     } else {    //anderenfalls
                         for (int id : biomeWahl) { //Variable id angelegt und biomeWahl zugeordnet
-                            switch (id) { // Switch zum "übersetzen" der ids
-                                case 1:
-                                    System.out.println("- Eurasien");
-                                    break;
-                                case 2:
-                                    System.out.println("- Afrika");
-                                    break;
-                                case 3:
-                                    System.out.println("- Nordamerika");
-                                    break;
-                                case 4:
-                                    System.out.println("- Suedamerika");
-                                    break;
-                                case 5:
-                                    System.out.println("- Australien und Ozeanien");
-                                    break;
-                                case 6:
-                                    System.out.println("- Tropisches Zentrum");
-                                    break;
-                                case 7:
-                                    System.out.println("- Meereswelt");
-                                    break;
-                            }
+                            System.out.println("- " + biome.getName(id));
                         }
                     }
                     System.out.println("ausgewählte Events"); //Überschrift
@@ -168,42 +146,24 @@ public class Main {
                         System.out.println("Es sind keine Events ausgewählt"); //... ausgeben
                     } else {  //anderenfalls
                         for (int id : eventWahl) { //Variable id angelegt und biomeWahl zugeordnet
-                            switch (id) { // Switch zum "übersetzen" der ids
-                                case 1:
-                                    System.out.println("- Nahrungsversorgung von Ziegen");
-                                    break;
-                                case 2:
-                                    System.out.println("- Orca-Show");
-                                    break;
-                                case 3:
-                                    System.out.println("- Nahrungsversorgung von Loewen");
-                                    break;
-                            }
+                           System.out.println("- " + event.getName(id)); 
                         }
                     }
                     System.out.println("ausgewählte Anreise:"); //Überschrift
                     if (anreiseWahl == 0) { //Wenn anreiseWahl nichts gespeichert hat dann...
                         System.out.println("- Noch nicht ausgewaehlt"); //... ausgeben
                     } else { //anderenfalls
-                        switch (anreiseWahl) { // Switch verwendet den gespeicherten Wert in anreiseWahl und "übersetzt"
-                            case 1:
-                                System.out.println("- PKW");
-                                break;
-                            case 2:
-                                System.out.println("- Bus/Wohnmobil");
-                                break;
-                            case 3:
-                                System.out.println("- OePNV / eigene Anreise");
-                                break;
-                        }
+                        System.out.println("- " + move.getName(anreiseWahl));
                     }
                     break;  // ende Case 5
                 case 6: //6. Bezahlen und Ticket anzeigen
+                    System.out.println("=== Ticket ===");
                     double gesamtpreis = 0.0; // Erstellung der Variable für den Gesamtpreis
                     if (anzahlErwachsene + anzahlErmaessigt <= 0) { // if anweisung damit user weis das keine person ausgewählt ist.
                         System.out.println("Bitte wählen sie zuerst die anzahl an Personen aus");
                         break;
                     }
+                    System.out.println("--- Biome ---");
                     if (biomeWahl.isEmpty()) { //Wenn ArrayList leer ist dann...
                         System.out.println("Es sind keine Biome ausgewählt Bitte wählen sie ein Biom aus"); //... ausgeben
                         break;
@@ -211,24 +171,43 @@ public class Main {
                         for (int biomeid : biomeWahl) { //Variable biomeid biomeWahl zugeordnet
                             double pErwachsener = biome.getPreis(biomeid, false); // Variable mit getMethode verbunden (preis abrufen)
                             double pErmaessigt = biome.getPreis(biomeid, true); // Variable mit getMethode verbunden (preis abrufen)
+                            String name = biome.getName(biomeid); // Variable name den wert von biome.getName gegben
+                            double posten = pErwachsener * anzahlErwachsene + pErmaessigt * anzahlErmaessigt; // berechnung des einzelnen posten
+                            gesamtpreis += posten; //akt. posten zu gesamt addiert
+                            
+                            System.out.println(name + ": " + anzahlErwachsene + " Erwachsene. x " + pErwachsener
+                                    + " + " + anzahlErmaessigt + " Ermaessigte. x " + pErmaessigt
+                                    + " = " + posten + " EUR");
 
-                            gesamtpreis += pErwachsener * anzahlErwachsene; //Rechnung Teilbetrag zum gesamtpreis addieren
-                            gesamtpreis += pErmaessigt * anzahlErmaessigt; //Rechnung Teilbetrag zum gesamtpreis addieren
                         }
                     }
-                    for (int eventid : eventWahl) { //Variable eventid eventWahl zugeordnet
-                        double pErwachsener = event.getPreis(eventid, false); // Variable mit getMethode verbunden (preis abrufen)
-                        double pErmaessigt = event.getPreis(eventid, true); // Variable mit getMethode verbunden (preis abrufen)
+                    System.out.println("--- Events ---");
+                    if (eventWahl.isEmpty()) { //Wenn ArrayList leer ist dann...
+                        System.out.println("Es sind keine Events ausgewählt"); //... ausgeben
+                    } else {    //anderenfalls
+                        for (int eventid : eventWahl) { //Variable eventid eventWahl zugeordnet
+                            double pErwachsener = event.getPreis(eventid, false); // Variable mit getMethode verbunden (preis abrufen)
+                            double pErmaessigt = event.getPreis(eventid, true); // Variable mit getMethode verbunden (preis abrufen)
+                            String name = event.getName(eventid); // Variable name den wert von event.getName gegben
+                            double posten = pErwachsener * anzahlErwachsene + pErmaessigt * anzahlErmaessigt; // berechnung des einzelnen posten
+                            gesamtpreis += posten; //akt. posten zu gesamt addiert
+                            
+                            System.out.println(name + ": " + anzahlErwachsene + " Erwachsene. x " + pErwachsener
+                                    + " + " + anzahlErmaessigt + " Ermaessigte. x " + pErmaessigt
+                                    + " = " + posten + " EUR");
 
-                        gesamtpreis += pErwachsener * anzahlErwachsene; //Rechnung Teilbetrag zum gesamtpreis addieren
-                        gesamtpreis += pErmaessigt * anzahlErmaessigt; //Rechnung Teilbetrag zum gesamtpreis addieren
+                        }
                     }
-
+                    System.out.println("--- Anreise ---");
                     if (anreiseWahl == 0) { // wenn die Variable 0 ist dann...
                         System.out.println("Bitte wählen sie zuerst eine Anreise aus"); //... gebe das aus
                         break;
-                    } else {
-                        gesamtpreis += move.getPreis(anreiseWahl); // Variable mit getMethode verbunden (preis abrufen) und Teilbetrag addieren
+                    } else { //andernfalls
+                        double posten = move.getPreis(anreiseWahl); //Variable posten den wert der getPreis Methode zugewiesen
+                        String name = move.getName(anreiseWahl); // Variable name den wert von get.Name zugeordnet
+                        gesamtpreis += posten; // posten zum gesamtpreis addiert 
+                        
+                        System.out.println(name + ": " + posten + " EUR");
                     }
 
                     System.out.println("Gesamtpreis:" + gesamtpreis + "  EUR"); // ausgabe des Gesamtpreises

@@ -30,4 +30,13 @@ public class Event {
         }
         return grundpreis; // gebe denn Grundpreis zurück
     }
+    public String getName(int eventid) {
+    switch (eventid) {
+        case 1: return "Nahrungsversorgung von Ziegen";
+        case 2: return "Orca-Show";
+        case 3: return "Nahrungsversorgung von Löwen";
+        default: return "Unbekanntes Event";
+    }
+}
+
 }

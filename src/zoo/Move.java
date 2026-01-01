@@ -29,4 +29,13 @@ public class Move {
 
         return anreisePreis; // gebe denn anreisePreis zurück
     }
+    public String getName(int anreiseWahl){
+        switch (anreiseWahl){
+            case 1: return "PKW bis 3,5t";
+            case 2: return "Bus/Wohnmobiel";
+            case 3: return "eigene Anreise";
+            default: return "Unbekannte anreise Option";
+        }
+    }
+
 }
