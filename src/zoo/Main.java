@@ -29,6 +29,7 @@ public class Main {
         Move move = new Move();// Neues objekt mit Variable erstellt
         int anzahlErwachsene = 0; // Erstellung der Variable für die anzahl an erwachsenen Personen
         int anzahlErmaessigt = 0; // Erstellung der Variable für die anzahl an ermäßigten Personen  
+        Generator generator = new Generator(); //Erstellung eines Generator Objekts
 
         while (running) { //While schleife der Switch Case
             System.out.println("Willkommen im Zoo GolzschGenrich GmbH"); // Textprint für auswahlmenü
@@ -132,7 +133,8 @@ public class Main {
                     break; //ende Case 4
                 case 5: //5. Warenkorb anzeigen
                     System.out.println("Warenkorb"); //Überschrift
-
+                    
+                    System.out.println("--- Biome ---");
                     System.out.println("ausgewählte Biome:");
                     if (biomeWahl.isEmpty()) { //Wenn ArrayList leer ist dann...
                         System.out.println("Es sind keine Biome ausgewählt"); //... ausgeben
@@ -141,6 +143,7 @@ public class Main {
                             System.out.println("- " + biome.getName(id));
                         }
                     }
+                    System.out.println("--- Events ---");
                     System.out.println("ausgewählte Events"); //Überschrift
                     if (eventWahl.isEmpty()) { //Wenn ArrayList leer ist dann...
                         System.out.println("Es sind keine Events ausgewählt"); //... ausgeben
@@ -149,6 +152,7 @@ public class Main {
                            System.out.println("- " + event.getName(id)); 
                         }
                     }
+                    System.out.println("--- Anreise ---");
                     System.out.println("ausgewählte Anreise:"); //Überschrift
                     if (anreiseWahl == 0) { //Wenn anreiseWahl nichts gespeichert hat dann...
                         System.out.println("- Noch nicht ausgewaehlt"); //... ausgeben
@@ -157,7 +161,7 @@ public class Main {
                     }
                     break;  // ende Case 5
                 case 6: //6. Bezahlen und Ticket anzeigen
-                    System.out.println("=== Ticket ===");
+                    System.out.println("========== Ticket ==========");
                     double gesamtpreis = 0.0; // Erstellung der Variable für den Gesamtpreis
                     if (anzahlErwachsene + anzahlErmaessigt <= 0) { // if anweisung damit user weis das keine person ausgewählt ist.
                         System.out.println("Bitte wählen sie zuerst die anzahl an Personen aus");
@@ -211,6 +215,12 @@ public class Main {
                     }
 
                     System.out.println("Gesamtpreis:" + gesamtpreis + "  EUR"); // ausgabe des Gesamtpreises
+                    
+                    String ticketnr = generator.getTicketnr(); // Erstellung der lokalen Variablen und aufruf des Objetes und get.Methode
+                    String barcode = generator.getBarcode(); //--||--
+                    System.out.println("Ticketnummer: " + ticketnr); // Print Ticketnummer
+                    System.out.println(barcode); // Print Barcode
+                    System.out.println("================================================");
                     break;
                 case 7:
                     break;
