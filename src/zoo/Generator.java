@@ -6,7 +6,7 @@ package zoo;
  */
 /**
  *
- * @author User
+ * @author Maddox
  */
 public class Generator {
 
